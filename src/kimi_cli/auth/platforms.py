@@ -82,6 +82,7 @@ PLATFORMS: list[Platform] = [
         name="Alibaba Cloud Model Studio (Coding Plan)",
         base_url="https://coding-intl.dashscope.aliyuncs.com/v1",
         provider_type="openai_legacy",
+        allowed_prefixes=["qwen", "deepseek"],
     ),
 ]
 
