@@ -8,9 +8,9 @@ resolution-markers = [
 
 [manifest]
 members = [
-    "kimi-cli",
     "kimi-code",
     "kimi-sdk",
+    "kimijang-cli",
     "kosong",
     "pykaos",
 ]
@@ -1209,6 +1209,93 @@ wheels = [
 [[package]]
 name = "kimi-cli"
 version = "1.37.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "agent-client-protocol" },
+    { name = "aiofiles" },
+    { name = "aiohttp" },
+    { name = "batrachian-toad", marker = "python_full_version >= '3.14'" },
+    { name = "fastapi" },
+    { name = "fastmcp" },
+    { name = "httpx", extra = ["socks"] },
+    { name = "jinja2" },
+    { name = "keyring" },
+    { name = "kosong", extra = ["contrib"] },
+    { name = "loguru", version = "0.6.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.14'" },
+    { name = "loguru", version = "0.7.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.14'" },
+    { name = "lxml" },
+    { name = "pillow" },
+    { name = "prompt-toolkit" },
+    { name = "pydantic" },
+    { name = "pykaos" },
+    { name = "pyobjc-framework-cocoa", marker = "sys_platform == 'darwin'" },
+    { name = "pyyaml" },
+    { name = "rich" },
+    { name = "ripgrepy" },
+    { name = "scalar-fastapi" },
+    { name = "setproctitle" },
+    { name = "streamingjson" },
+    { name = "tenacity" },
+    { name = "tomlkit" },
+    { name = "trafilatura" },
+    { name = "typer" },
+    { name = "uvicorn", extra = ["standard"] },
+    { name = "websockets" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a5/72/2c0097cdaa809b08193bebb81a06ae578a7d21d8e64938755a5d08e68961/kimi_cli-1.37.0.tar.gz", hash = "sha256:ce3258cbb6086f5759b71b24ce035013644bdf4f68a3b7e0d83e6074718211fb", size = 5241322, upload-time = "2026-04-20T15:47:57.53Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/02/c3/df9055f74e8c124683f667c8627b98c6a957fd120841bfbdbefb7dafe130/kimi_cli-1.37.0-py3-none-any.whl", hash = "sha256:dcae0d9aef5b2afc25ad8057ff06ea2445e56721534bf5e0b31f7b7e267db9a2", size = 5548753, upload-time = "2026-04-20T15:47:54.951Z" },
+]
+
+[[package]]
+name = "kimi-code"
+version = "1.37.0"
+source = { editable = "packages/kimi-code" }
+dependencies = [
+    { name = "kimi-cli" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "kimi-cli", specifier = "==1.37.0" }]
+
+[[package]]
+name = "kimi-sdk"
+version = "0.2.1"
+source = { editable = "sdks/kimi-sdk" }
+dependencies = [
+    { name = "kosong" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "httpx" },
+    { name = "inline-snapshot", extra = ["black"] },
+    { name = "pdoc" },
+    { name = "pyright" },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "ruff" },
+    { name = "ty" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "kosong", editable = "packages/kosong" }]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "httpx", specifier = ">=0.28.1,<0.29.0" },
+    { name = "inline-snapshot", extras = ["black"], specifier = ">=0.31.1" },
+    { name = "pdoc", specifier = ">=16.0.0" },
+    { name = "pyright", specifier = ">=1.1.407" },
+    { name = "pytest", specifier = ">=9.0.2" },
+    { name = "pytest-asyncio", specifier = ">=1.3.0" },
+    { name = "ruff", specifier = ">=0.14.10" },
+    { name = "ty", specifier = ">=0.0.7" },
+]
+
+[[package]]
+name = "kimijang-cli"
+version = "1.37.0"
 source = { editable = "." }
 dependencies = [
     { name = "agent-client-protocol" },
@@ -1296,52 +1383,6 @@ dev = [
     { name = "pytest-asyncio", specifier = ">=1.3.0" },
     { name = "ruff", specifier = ">=0.14.10" },
     { name = "ty", specifier = ">=0.0.9" },
-]
-
-[[package]]
-name = "kimi-code"
-version = "1.37.0"
-source = { editable = "packages/kimi-code" }
-dependencies = [
-    { name = "kimi-cli" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "kimi-cli", editable = "." }]
-
-[[package]]
-name = "kimi-sdk"
-version = "0.2.1"
-source = { editable = "sdks/kimi-sdk" }
-dependencies = [
-    { name = "kosong" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "httpx" },
-    { name = "inline-snapshot", extra = ["black"] },
-    { name = "pdoc" },
-    { name = "pyright" },
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "ruff" },
-    { name = "ty" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "kosong", editable = "packages/kosong" }]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "httpx", specifier = ">=0.28.1,<0.29.0" },
-    { name = "inline-snapshot", extras = ["black"], specifier = ">=0.31.1" },
-    { name = "pdoc", specifier = ">=16.0.0" },
-    { name = "pyright", specifier = ">=1.1.407" },
-    { name = "pytest", specifier = ">=9.0.2" },
-    { name = "pytest-asyncio", specifier = ">=1.3.0" },
-    { name = "ruff", specifier = ">=0.14.10" },
-    { name = "ty", specifier = ">=0.0.7" },
 ]
 
 [[package]]
