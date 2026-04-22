@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { FileText, Plus, Save, Trash2 } from 'lucide-react'
+import { FileText, Plus, Save } from 'lucide-react'
 import { useState } from 'react'
 
 interface Note {

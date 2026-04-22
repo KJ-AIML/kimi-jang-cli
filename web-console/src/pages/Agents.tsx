@@ -17,7 +17,7 @@ interface Agent {
 function Agents() {
   const queryClient = useQueryClient()
   const [showNewAgent, setShowNewAgent] = useState(false)
-  const [newAgent, setNewAgent] = useState({ name: '', role: 'coder' as const })
+  const [newAgent, setNewAgent] = useState<{ name: string; role: 'coder' | 'reviewer' }>({ name: '', role: 'coder' })
 
   const { data: agents, isLoading } = useQuery<Agent[]>({
     queryKey: ['agents'],

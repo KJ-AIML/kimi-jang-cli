@@ -167,7 +167,13 @@ function Tasks() {
                 >
                   <div className="flex items-start justify-between">
                     <h4 className="font-medium text-sm mb-2">{task.title}</h4>
-                    <button className="text-[var(--text-secondary)] hover:text-white">
+                    <button 
+                      onClick={() => {
+                        const nextStatus = { todo: 'doing', doing: 'review', review: 'done', done: 'todo' }[task.status]
+                        updateTaskStatus.mutate({ taskId: task.id, status: nextStatus })
+                      }}
+                      className="text-[var(--text-secondary)] hover:text-violet-400"
+                    >
                       <MoreHorizontal size={14} />
                     </button>
                   </div>
