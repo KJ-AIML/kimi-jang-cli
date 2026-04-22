@@ -33,6 +33,18 @@ if TYPE_CHECKING:
     from kimi_cli.ui.shell import Shell
 
 
+_ALIBABA_CODING_PLAN_MODELS = [
+    "qwen3.5-plus",
+    "kimi-k2.5",
+    "glm-5",
+    "MiniMax-M2.5",
+    "qwen3-max-2026-01-23",
+    "qwen3-coder-next",
+    "qwen3-coder-plus",
+    "glm-4.7",
+]
+
+
 async def select_platform() -> Platform | None:
     platform_name = await _prompt_choice(
         header="Select a platform (↑↓ navigate, Enter select, Ctrl+C cancel):",
@@ -84,14 +96,16 @@ async def _setup_platform(platform: Platform) -> _SetupResult | None:
         with console.status("[cyan]Verifying API key...[/cyan]"):
             models = await list_models(platform, api_key)
     except aiohttp.ClientResponseError as e:
-        logger.error("Failed to get models: {error}", error=e)
-        console.print(f"[red]Failed to get models: {e.message}[/red]")
-        if e.status == 401 and platform.id != KIMI_CODE_PLATFORM_ID:
-            console.print(
-                "[yellow]Hint: If your API key was obtained from Kimi Code, "
-                'please select "Kimi Code" instead.[/yellow]'
-            )
-        return None
+        models = await _fallback_models_on_list_error(platform, e)
+        if models is None:
+            logger.error("Failed to get models: {error}", error=e)
+            console.print(f"[red]Failed to get models: {e.message}[/red]")
+            if e.status == 401 and platform.id != KIMI_CODE_PLATFORM_ID:
+                console.print(
+                    "[yellow]Hint: If your API key was obtained from Kimi Code, "
+                    'please select "Kimi Code" instead.[/yellow]'
+                )
+            return None
     except Exception as e:
         logger.error("Failed to get models: {error}", error=e)
         console.print(f"[red]Failed to get models: {e}[/red]")
@@ -102,16 +116,18 @@ async def _setup_platform(platform: Platform) -> _SetupResult | None:
         console.print("[red]No models available for the selected platform[/red]")
         return None
 
-    model_map = {model.id: model for model in models}
-    model_id = await _prompt_choice(
-        header="Select a model (↑↓ navigate, Enter select, Ctrl+C cancel):",
-        choices=list(model_map),
-    )
-    if not model_id:
-        console.print("[red]No model selected[/red]")
-        return None
-
-    selected_model = model_map[model_id]
+    if len(models) == 1:
+        selected_model = models[0]
+    else:
+        model_map = {model.id: model for model in models}
+        model_id = await _prompt_choice(
+            header="Select a model (↑↓ navigate, Enter select, Ctrl+C cancel):",
+            choices=list(model_map),
+        )
+        if not model_id:
+            console.print("[red]No model selected[/red]")
+            return None
+        selected_model = model_map[model_id]
 
     # Determine thinking mode based on model capabilities
     capabilities = selected_model.capabilities
@@ -139,12 +155,58 @@ async def _setup_platform(platform: Platform) -> _SetupResult | None:
     )
 
 
+async def _fallback_models_on_list_error(
+    platform: Platform,
+    error: aiohttp.ClientResponseError,
+) -> list[ModelInfo] | None:
+    if error.status != 404 or platform.provider_type not in {"openai_legacy", "openai_responses"}:
+        return None
+
+    console.print(
+        "[yellow]This provider does not expose a /models endpoint. "
+        "Please enter the model manually.[/yellow]"
+    )
+    if platform.id == "alibaba-cloud-coding-plan":
+        model_id = await _prompt_choice(
+            header="Select a Coding Plan model (↑↓ navigate, Enter select, Ctrl+C cancel):",
+            choices=_ALIBABA_CODING_PLAN_MODELS,
+        )
+    else:
+        model_id = await _prompt_text("Enter model name")
+    if not model_id:
+        console.print("[red]No model selected[/red]")
+        return None
+
+    context_text = await _prompt_text("Enter model context length", default="131072")
+    if not context_text:
+        return None
+
+    try:
+        context_length = int(context_text)
+    except ValueError:
+        console.print("[red]Invalid context length; please use an integer value.[/red]")
+        return None
+    if context_length <= 0:
+        console.print("[red]Invalid context length; must be > 0.[/red]")
+        return None
+
+    return [
+        ModelInfo(
+            id=model_id,
+            context_length=context_length,
+            supports_reasoning=False,
+            supports_image_in=False,
+            supports_video_in=False,
+        )
+    ]
+
+
 def _apply_setup_result(result: _SetupResult) -> None:
     config = load_config()
     provider_key = managed_provider_key(result.platform.id)
     model_key = managed_model_key(result.platform.id, result.selected_model.id)
     config.providers[provider_key] = LLMProvider(
-        type="kimi",
+        type=result.platform.provider_type,
         base_url=result.platform.base_url,
         api_key=result.api_key,
     )
@@ -191,13 +253,15 @@ async def _prompt_choice(*, header: str, choices: list[str]) -> str | None:
         return None
 
 
-async def _prompt_text(prompt: str, *, is_password: bool = False) -> str | None:
+async def _prompt_text(prompt: str, *, is_password: bool = False, default: str = "") -> str | None:
     session = PromptSession[str]()
     try:
+        suffix = f" [{default}]" if default else ""
         return str(
             await session.prompt_async(
-                f" {prompt}: ",
+                f" {prompt}{suffix}: ",
                 is_password=is_password,
+                default=default,
             )
         ).strip()
     except (EOFError, KeyboardInterrupt):

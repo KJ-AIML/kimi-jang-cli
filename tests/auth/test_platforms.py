@@ -6,6 +6,7 @@ import pytest
 from pydantic import SecretStr
 
 from kimi_cli.auth.platforms import (
+    PLATFORMS,
     ModelInfo,
     _apply_models,
     _list_models,
@@ -203,3 +204,12 @@ def test_model_display_name_no_model_uses_raw_name():
 def test_model_display_name_empty_returns_empty():
     assert model_display_name(None) == ""
     assert model_display_name("") == ""
+
+
+def test_platforms_include_alibaba_coding_plan_provider():
+    """Alibaba Coding Plan should be available in /login with OpenAI-compatible provider type."""
+    platform = next((p for p in PLATFORMS if p.id == "alibaba-cloud-coding-plan"), None)
+    assert platform is not None
+    assert platform.provider_type == "openai_legacy"
+    assert platform.base_url == "https://coding-intl.dashscope.aliyuncs.com/v1"
+    assert platform.allowed_prefixes is None
