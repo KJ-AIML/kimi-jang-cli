@@ -161,7 +161,7 @@ class Database:
         """Create new agent."""
         with self._connect() as conn:
             conn.execute("""
-                INSERT INTO agents (id, project_id, name, role, model)
+                INSERT OR REPLACE INTO agents (id, project_id, name, role, model)
                 VALUES (?, ?, ?, ?, ?)
             """, (
                 agent["id"],
@@ -201,7 +201,7 @@ class Database:
         """Create new task."""
         with self._connect() as conn:
             conn.execute("""
-                INSERT INTO tasks (id, project_id, title, description, assignee_id, branch, base_branch, estimated_cost)
+                INSERT OR REPLACE INTO tasks (id, project_id, title, description, assignee_id, branch, base_branch, estimated_cost)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 task["id"],
@@ -274,7 +274,7 @@ class Database:
         """Create knowledge note."""
         with self._connect() as conn:
             conn.execute("""
-                INSERT INTO notes (id, project_id, title, content, type, related_task_id, related_session_id, file_path)
+                INSERT OR REPLACE INTO notes (id, project_id, title, content, type, related_task_id, related_session_id, file_path)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 note["id"],
