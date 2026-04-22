@@ -17,6 +17,24 @@ wheels/
 uv.toml
 .idea/*
 
+# AI agent directories
+.claude/
+.qwen/
+.cursor/
+.cursorrules
+.windsurfrules
+.kilocode/
+.opencode/
+.roo/
+.codex/
+.trae/
+.kiro/
+.github/copilot-instructions.md
+
+# Project-local AI agent config (skills/ is kept as reference)
+.agents/*/
+!.agents/skills/
+
 # Build dependencies
 src/kimi_cli/deps/bin
 src/kimi_cli/deps/tmp
@@ -44,4 +62,3 @@ node_modules/
 static/
 .memo/
 .entire
-.claude

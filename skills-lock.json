@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "skills": {
+    "code-review-excellence": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "89b2a6a234f6368b12f0232e1d77bd5ed894115114edf67eb1f2976e153664c0"
+    },
+    "fastapi-python": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "computedHash": "4521c6090735152b7b8df670cefe5c1c6d1dcaa115de67bb96e74ebf802d4f24"
+    },
+    "playwright-e2e-testing": {
+      "source": "fugazi/test-automation-skills-agents",
+      "sourceType": "github",
+      "computedHash": "dea206212f6598801aafdcca3fcbeca820bb0a23fea8a59f1780b1caf3e5f0b9"
+    },
+    "real-time-features": {
+      "source": "aj-geddes/useful-ai-prompts",
+      "sourceType": "github",
+      "computedHash": "8269a0097b3d7a907ac95cc6924f73dae6626befc3d267384d374d4bb8a74a74"
+    },
+    "repo-story-time": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "8f85047285d0e911bafb2ced184c0034784598f1035df96247a1b5bcd570abbf"
+    }
+  }
+}
