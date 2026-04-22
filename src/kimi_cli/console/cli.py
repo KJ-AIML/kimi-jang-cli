@@ -85,9 +85,9 @@ knowledge_sync = true
     db = Database(path)
     db.get_or_create_project(project_id)
     
-    typer.echo(f"✅ Console initialized for project: {path.name}")
+    typer.echo(f"Console initialized for project: {path.name}")
     typer.echo(f"   Project ID: {project_id}")
-    typer.echo(f"   Config: {config_file}")
+    typer.echo(f"Config: {config_file}")
     if git_remote:
         typer.echo(f"   Git remote: {git_remote}")
     typer.echo(f"\nRun 'kimijang console' to start the dashboard.")
@@ -114,10 +114,10 @@ def start(
     app = create_console_app(path, project_id)
     
     # Banner
-    typer.echo(f"\n🟣 Kimijang Console")
+    typer.echo(f"\nKimijang Console")
     typer.echo(f"   Project: {path.name}")
     typer.echo(f"   URL: http://{host}:{port}")
-    typer.echo(f"\n   Press Ctrl+C to stop\n")
+    typer.echo(f"\nPress Ctrl+C to stop\n")
     
     # Open browser in background thread
     if open_browser:
@@ -129,7 +129,7 @@ def start(
     
     # Handle graceful shutdown
     def signal_handler(sig, frame):
-        typer.echo("\n\n👋 Stopping console...")
+        typer.echo("\n\nStopping console...")
         sys.exit(0)
     
     signal.signal(signal.SIGINT, signal_handler)
@@ -146,7 +146,7 @@ def start(
             access_log=False
         )
     except KeyboardInterrupt:
-        typer.echo("\n\n👋 Console stopped.")
+        typer.echo("\n\nConsole stopped.")
 
 
 # Alias: console = start

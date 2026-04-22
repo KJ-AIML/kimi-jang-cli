@@ -145,7 +145,7 @@ class Database:
             
             # Create new project
             conn.execute(
-                "INSERT INTO projects (id, path) VALUES (?, ?)",
+                "INSERT OR REPLACE INTO projects (id, path) VALUES (?, ?)",
                 (project_id, str(self.project_path))
             )
             conn.commit()
