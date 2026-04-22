@@ -144,7 +144,7 @@ def _apply_setup_result(result: _SetupResult) -> None:
     provider_key = managed_provider_key(result.platform.id)
     model_key = managed_model_key(result.platform.id, result.selected_model.id)
     config.providers[provider_key] = LLMProvider(
-        type="kimi",
+        type=result.platform.provider_type,
         base_url=result.platform.base_url,
         api_key=result.api_key,
     )

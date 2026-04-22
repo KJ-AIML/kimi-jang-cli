@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from kimi_cli.auth import KIMI_CODE_PLATFORM_ID
 from kimi_cli.config import Config, LLMModel, load_config, save_config
-from kimi_cli.llm import ModelCapability
+from kimi_cli.llm import ModelCapability, ProviderType
 from kimi_cli.utils.aiohttp import new_client_session
 from kimi_cli.utils.logging import logger
 
@@ -45,6 +45,7 @@ class Platform(NamedTuple):
     id: str
     name: str
     base_url: str
+    provider_type: ProviderType = "kimi"
     search_url: str | None = None
     fetch_url: str | None = None
     allowed_prefixes: list[str] | None = None
@@ -75,6 +76,13 @@ PLATFORMS: list[Platform] = [
         name="Moonshot AI Open Platform (moonshot.ai)",
         base_url="https://api.moonshot.ai/v1",
         allowed_prefixes=["kimi-k"],
+    ),
+    Platform(
+        id="alibaba-cloud-coding-plan",
+        name="Alibaba Cloud Model Studio (Coding Plan)",
+        base_url="https://coding-intl.dashscope.aliyuncs.com/v1",
+        provider_type="openai_legacy",
+        allowed_prefixes=["qwen", "deepseek"],
     ),
 ]
 
