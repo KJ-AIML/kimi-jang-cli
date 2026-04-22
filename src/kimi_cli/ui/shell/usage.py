@@ -52,7 +52,7 @@ async def usage(app: Shell, args: str):
         console.print("[yellow]Usage is available on Kimi Code platform only.[/yellow]")
         return
 
-    with console.status("[cyan]Fetching usage...[/cyan]"):
+    with console.status("[bright_magenta]Fetching usage...[/bright_magenta]"):
         api_key = app.soul.runtime.oauth.resolve_api_key(provider.api_key, provider.oauth)
         try:
             payload = await _fetch_usage(usage_url, api_key)
@@ -256,7 +256,7 @@ def _format_row(row: UsageRow, label_width: int) -> RenderableType:
     ratio = (row.limit - row.used) / row.limit if row.limit > 0 else 0
     color = _ratio_color(ratio)
 
-    label = Text(f"{row.label:<{label_width}}  ", style="cyan")
+    label = Text(f"{row.label:<{label_width}}  ", style="bright_magenta")
     bar = ProgressBar(total=row.limit or 1, completed=row.used, width=20, complete_style=color)
 
     detail = Text()

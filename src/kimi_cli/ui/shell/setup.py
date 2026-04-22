@@ -93,7 +93,7 @@ async def _setup_platform(platform: Platform) -> _SetupResult | None:
 
     # list models
     try:
-        with console.status("[cyan]Verifying API key...[/cyan]"):
+        with console.status("[bright_magenta]Verifying API key...[/bright_magenta]"):
             models = await list_models(platform, api_key)
     except aiohttp.ClientResponseError as e:
         models = await _fallback_models_on_list_error(platform, e)

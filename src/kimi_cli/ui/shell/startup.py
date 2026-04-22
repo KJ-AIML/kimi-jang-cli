@@ -16,7 +16,7 @@ class ShellStartupProgress:
         if not self._enabled:
             return
 
-        status_message = f"[cyan]{message}[/cyan]"
+        status_message = f"[bright_magenta]{message}[/bright_magenta]"
         if self._status is None:
             self._status = console.status(status_message, spinner="dots")
             self._status.start()

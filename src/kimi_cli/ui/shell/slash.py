@@ -116,7 +116,7 @@ def help(app: Shell, args: str):
         section(
             "Slash commands",
             [(c.slash_name(), c.description) for c in sorted(commands, key=lambda c: c.name)],
-            "blue",
+            "bright_magenta",
         )
     )
     if skills:
@@ -124,7 +124,7 @@ def help(app: Shell, args: str):
             section(
                 "Skills",
                 [(c.slash_name(), c.description) for c in sorted(skills, key=lambda c: c.name)],
-                "cyan",
+                "bright_magenta",
             )
         )
 
@@ -460,7 +460,7 @@ async def feedback(app: Shell, args: str):
         "model": current_model_key(soul),
     }
 
-    with console.status("[cyan]Submitting feedback...[/cyan]"):
+    with console.status("[bright_magenta]Submitting feedback...[/bright_magenta]"):
         try:
             async with (
                 new_client_session() as session,
@@ -742,7 +742,7 @@ def hooks(app: Shell, args: str):
     console.print()
 
     for event, entries in engine.details().items():
-        console.print(f"  [cyan]{event}[/cyan]: {len(entries)} hook(s)")
+        console.print(f"  [bright_magenta]{event}[/bright_magenta]: {len(entries)} hook(s)")
         for entry in entries:
             source_tag = f" [dim]({entry['source']})[/dim]" if entry["source"] == "wire" else ""
             console.print(f"    [dim]{entry['matcher']}[/dim] {entry['command']}{source_tag}")

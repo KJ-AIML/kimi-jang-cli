@@ -1773,7 +1773,7 @@ class CustomPromptSession:
 
         # 4. Input section header — style varies by mode:
         #    normal:  ── input ─────────────────  (grey, solid)
-        #    plan:    ╌╌ input · plan ╌╌╌╌╌╌╌╌╌  (blue, dashed)
+        #    plan:    ╌╌ input · plan ╌╌╌╌╌╌╌╌╌  (violet, dashed)
         status = self._status_provider()
         # Build title parts
         title_parts = ["input"]
@@ -1787,7 +1787,7 @@ class CustomPromptSession:
         title = f" {' · '.join(title_parts)} "
         if status.plan_mode:
             dash = "╌"
-            style = "fg:#60a5fa"  # blue
+            style = "fg:#7F00FF"  # violet
         else:
             dash = "─"
             style = "class:running-prompt-separator"

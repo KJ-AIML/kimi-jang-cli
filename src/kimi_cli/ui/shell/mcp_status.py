@@ -79,7 +79,7 @@ def _spinner_frame(now: float | None = None) -> str:
 def _status_color(status: str) -> str:
     return {
         "connected": "green",
-        "connecting": "cyan",
+        "connecting": "bright_magenta",
         "pending": "yellow",
         "failed": "red",
         "unauthorized": "red",

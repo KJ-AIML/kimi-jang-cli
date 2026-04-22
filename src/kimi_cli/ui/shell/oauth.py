@@ -26,7 +26,7 @@ async def _login_kimi_code(soul: KimiSoul) -> bool:
         async for event in login_kimi_code(soul.runtime.config):
             if event.type == "waiting":
                 if status is None:
-                    status = console.status("[cyan]Waiting for user authorization...[/cyan]")
+                    status = console.status("[bright_magenta]Waiting for user authorization...[/bright_magenta]")
                     status.start()
                 continue
             if status is not None:

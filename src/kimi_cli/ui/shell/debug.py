@@ -45,22 +45,22 @@ def _format_content_part(part: ContentPart) -> Text | Panel | Group:
             return Panel(
                 think,
                 title="[dim]thinking[/dim]",
-                border_style="dim cyan",
+                border_style="dim bright_magenta",
                 padding=(0, 1),
             )
 
         case ImageURLPart(image_url=img):
             url_display = img.url[:80] + "..." if len(img.url) > 80 else img.url
-            return Text(f"[Image] {url_display}", style="blue")
+            return Text(f"[Image] {url_display}", style="bright_magenta")
 
         case AudioURLPart(audio_url=audio):
             url_display = audio.url[:80] + "..." if len(audio.url) > 80 else audio.url
             id_text = f" (id: {audio.id})" if audio.id else ""
-            return Text(f"[Audio{id_text}] {url_display}", style="blue")
+            return Text(f"[Audio{id_text}] {url_display}", style="bright_magenta")
 
         case VideoURLPart(video_url=video):
             url_display = video.url[:80] + "..." if len(video.url) > 80 else video.url
-            return Text(f"[Video] {url_display}", style="blue")
+            return Text(f"[Video] {url_display}", style="bright_magenta")
 
         case _:
             return Text(f"[Unknown content type: {type(part).__name__}]", style="red")
@@ -76,7 +76,7 @@ def _format_tool_call(tool_call: ToolCall) -> Panel:
         args_syntax = Text(args, style="red")
 
     content = Group(
-        Text(f"Function: {tool_call.function.name}", style="bold cyan"),
+        Text(f"Function: {tool_call.function.name}", style="bold bright_magenta"),
         Text(f"Call ID: {tool_call.id}", style="dim"),
         Text("Arguments:", style="bold"),
         args_syntax,
@@ -97,7 +97,7 @@ def _format_message(msg: Message, index: int) -> Panel:
         "system": "magenta",
         "developer": "magenta",
         "user": "green",
-        "assistant": "blue",
+        "assistant": "bright_magenta",
         "tool": "yellow",
     }
     role_color = role_colors.get(msg.role, "white")
@@ -172,7 +172,7 @@ def debug(app: Shell, args: str):
                 Text(f"Trajectory: {context.file_backend}", style="dim"),
             ),
             title="[bold]Context Info[/bold]",
-            border_style="cyan",
+            border_style="bright_magenta",
             padding=(0, 1),
         ),
         Rule(style="dim"),

@@ -114,7 +114,7 @@ class QuestionRequestPanel:
             for i, qi in enumerate(self.request.questions):
                 label = escape(qi.header or f"Q{i + 1}")
                 if i == self._current_question_index:
-                    icon, style = "\u25cf", "bold cyan"
+                    icon, style = "\u25cf", "bold bright_magenta"
                 elif qi.question in self._answers:
                     icon, style = "\u2713", "green"
                 else:
@@ -131,7 +131,7 @@ class QuestionRequestPanel:
         if self._body_text:
             lines.append(
                 Text.from_markup(
-                    "[bold cyan]  \u25b6 Press ctrl-e to view full content[/bold cyan]"
+                    "[bold bright_magenta]  \u25b6 Press ctrl-e to view full content[/bold bright_magenta]"
                 )
             )
             lines.append(Text(""))
@@ -145,7 +145,7 @@ class QuestionRequestPanel:
                 checked = "\u2713" if i in self._multi_selected else " "
                 prefix = f"\\[{checked}]"
                 if i == self._selected_index:
-                    option_line = Text.from_markup(f"[cyan]{prefix} {escape(label)}[/cyan]")
+                    option_line = Text.from_markup(f"[bright_magenta]{prefix} {escape(label)}[/bright_magenta]")
                 else:
                     option_line = Text.from_markup(f"[grey50]{prefix} {escape(label)}[/grey50]")
             else:
@@ -153,7 +153,7 @@ class QuestionRequestPanel:
                     if is_other and show_inline_input:
                         input_display = escape(other_input_text) if other_input_text else ""
                         option_line = Text.from_markup(
-                            f"[cyan]\u2192 \\[{num}] {escape(label)}: {input_display}\u2588[/cyan]"
+                            f"[bright_magenta]\u2192 \\[{num}] {escape(label)}: {input_display}\u2588[/bright_magenta]"
                         )
                     else:
                         option_line = Text.from_markup(

@@ -459,7 +459,7 @@ def _build_full_output_renderable(view: TaskView, output: str) -> Panel:
             Text(output),
         ),
         title="Background Task Output",
-        border_style="cyan",
+        border_style="bright_magenta",
     )
 
 
