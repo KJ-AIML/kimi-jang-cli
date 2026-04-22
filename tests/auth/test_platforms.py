@@ -212,4 +212,4 @@ def test_platforms_include_alibaba_coding_plan_provider():
     assert platform is not None
     assert platform.provider_type == "openai_legacy"
     assert platform.base_url == "https://coding-intl.dashscope.aliyuncs.com/v1"
-    assert platform.allowed_prefixes == ["qwen", "deepseek"]
+    assert platform.allowed_prefixes is None
